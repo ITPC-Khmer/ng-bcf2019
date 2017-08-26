@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="author" content="">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>local business directory</title>
+  <base href="/">
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
+
+  <!-- Style Sheets -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="assets/css/animate.css" type="text/css">
+  <link rel="stylesheet" href="assets/css/stylesheet.css?v=1.0.0" type="text/css">
+  <link rel="stylesheet" href="assets/css/responsive_style.css" type="text/css">
+  <link rel="stylesheet" href="assets/sweetalert2/sweetalert2.min.css" type="text/css">
+
+  <!-- Google Fonts-->
+  <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700,800%7CMontserrat:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900" rel="stylesheet">
+
+  <style>
+    .img-container-x {
+      /*background-image: url("../images/layout/bg.png");*/
+      background-repeat: no-repeat;
+      -webkit-background-size:100% auto;
+      -moz-background-size:100% auto;
+      -o-background-size:100% auto;
+      background-size:100% auto;
+      background-position: center center;
+      /* background-attachment: fixed;*/
+      width: 100%;
+      height: 90px;
+      /*margin: 3px auto 0;*/
+      position: relative;
+      -webkit-transition: -webkit-transform 0.4s ease;
+      -moz-transition: -moz-transform 0.4s ease;
+      -o-transition: -o-transform 0.4s ease;
+      transition: transform 0.4s ease;
+    }
+
+    .img-container-x:hover{
+      -webkit-background-size:calc(100% + 10px) auto;
+      -moz-background-size:calc(100% + 10px) auto;
+      -o-background-size:calc(100% + 10px) auto;
+      background-size:calc(100% + 10px) auto;
+      cursor: pointer;
+      /* -webkit-transform: scale(0.97);
+       -moz-transform: scale(0.97);
+       -ms-transform: scale(0.97);
+       -o-transform: scale(0.97);
+       transform: scale(0.97);*/
+    }
+  </style>
+
+
+
+
+  <style>
+
+
+    .search-categories-boxes:hover, .search-categories-boxes h2:hover{
+      cursor: pointer;
+    }
+
+    .categories-list{
+      opacity:0;
+    }
+
+    .search-categories-boxes:hover .categories-list{
+      display: block !important;
+      position: absolute;
+      width: 100%;
+      background: #fff;
+      z-index: 999;
+
+      opacity:1;
+      -webkit-animation-name: fadeIn;
+      -webkit-animation-duration: .5s;
+      animation-name: fadeIn;
+      animation-duration: .5s;
+    }
+
+
+    .categories-list ul li{
+      border: none !important;
+    }
+
+
+    @-webkit-keyframes fadeIn {
+      0% { opacity: 0; }
+      20% { opacity: 0; }
+      40% { opacity: 0.3; }
+      60% { opacity: 0.5; }
+      80% { opacity: 0.9; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes  fadeIn {
+      0% { opacity: 0; }
+      20% { opacity: 0; }
+      40% { opacity: 0.3; }
+      60% { opacity: 0.5; }
+      80% { opacity: 0.9; }
+      100% { opacity: 1; }
+    }
+  </style>
+
+  <script>
+    function dd(v) {
+      console.log(v) ;
+    }
+    var cl_url = 'http://businesscardfolder.com/cl';
+    var CSRF_TOKEN = 'QW7h9Ori2jyE65Mfs6mTqNdoloUPINzTOvX1S3sG';
+    var current_url = 'http://businesscardfolder.com';
+  </script>
+  <script type="text/javascript" src="assets/js/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <app-root></app-root>
+
+  <!-- Scripts -->
+
+  <script type="text/javascript" src="assets/sweetalert2/sweetalert2.min.js"></script>
+
+  <script>
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': CSRF_TOKEN
+      },
+      data: {
+        isAjax: true,
+        _token: CSRF_TOKEN
+      }
+
+    });
+
+  </script>
+
+  <script type="text/javascript" src="assets/js/waypoints.js"></script>
+  <script type="text/javascript" src="assets/js/jquery_counterup.js"></script>
+
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFst-kB60jSfNMoanSrRdqACr50mI37Ts"></script>
+
+
+  <script type="text/javascript" src="assets/js/jquery_custom.js"></script>
+  <script type="text/javascript" src="assets/js/jquery.ripples.js"></script>
+
+  <script type="text/javascript">
+
+
+    function emailExist(email) {
+
+      var em = 0;
+
+      $.ajax({
+        url: 'http://businesscardfolder.com/clc/email-exist',
+        data: {email:email},
+        async:false,
+        error: function () {},
+        dataType: 'json',
+        success: function (data) {
+          em = data.ex -0;
+        },
+        type: 'GET'
+      });
+
+      return em;
+
+    }
+
+    $(document).ready(function(){
+
+
+      $('.registration').submit(function (e) {
+
+        var phone = $('.registration').find('.phone').val();
+
+        var password = $('.registration').find('.password').val();
+        var confirm_password = $('.registration').find('.confirm_password').val();
+
+        if(password != confirm_password || password == '' || confirm_password == '' || phone == ''){
+          return false;
+        }
+
+        var email = $('.registration').find('input[name=email]').val();
+
+        var em = emailExist(email);
+
+        if (em -0 ==1){
+          swal({
+            title: "email error",
+            text: "your email is already exist!!",
+            type: "warning",
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Close"
+          });
+          return false;
+        }
+
+
+      });
+
+
+      $(window).scroll(function(){
+        if ($(this).scrollTop() > 100) {
+          $('.scrollup').fadeIn();
+        } else {
+          $('.scrollup').fadeOut();
+        }
+      });
+      $('.scrollup').click(function(){
+        $("html, body").animate({ scrollTop: 0 }, 600);
+        return false;
+      });
+    });
+  </script>
+
+  <script>
+    /*************** show and hide map block ********************/
+    $(document).ready(function(e) {
+      $("#location-map-block").hide() ;
+      $("#location_slider_item_block").click(function(){
+        $("#slider-banner-section,#location-map-block").slideToggle("slow");
+        initmap();
+      });
+      $("#location-link-item").click(function(){
+        $("#slider-banner-section,#location-map-block").slideToggle("slow");
+      });
+    });
+    // home page map section
+    function initmap() {
+      var map = new google.maps.Map(document.getElementById("location-homemap-block"), {
+        zoom:9,
+        scrollwheel: false ,
+        center: new google.maps.LatLng(11.903423606080535, 104.3336853941574), // Gujarat
+
+        styles: [
+          {
+            "featureType": "administrative",
+            "elementType": "labels.text.fill",
+            "stylers": [
+              {
+                "color": "#000000"
+              }
+            ]
+          },
+          {
+            "featureType": "landscape",
+            "elementType": "all",
+            "stylers": [
+              {
+                "color": "#e2e2e2"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "all",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "road",
+            "elementType": "all",
+            "stylers": [
+              {
+                "saturation": -100
+              },
+              {
+                "lightness": 45
+              }
+            ]
+          },
+          {
+            "featureType": "road.highway",
+            "elementType": "all",
+            "stylers": [
+              {
+                "visibility": "simplified"
+              }
+            ]
+          },
+          {
+            "featureType": "road.arterial",
+            "elementType": "labels.icon",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "transit",
+            "elementType": "all",
+            "stylers": [
+              {
+                "visibility": "off"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "all",
+            "stylers": [
+              {
+                "color": "#a3ccff"
+              },
+              {
+                "visibility": "on"
+              }
+            ]
+          }
+        ]
+      });
+      setMarkers(map);
+    }
+
+    var item_location = []
+    /*[
+    ['Gujarat', 'Courier & Courier', 'Gujarat, Oslo, 15G, Torshovgata, Sagene, 0476, Oslo 1', 22.2587,71.1924, 5,'ic_1.png'],
+    ['Gujarat', 'Courier & Courier', 'Gujarat, Oslo, 15G, Torshovgata, Sagene, 0426, Oslo 2', 21.9619,70.7923, 3,'ic_2.png'],
+    ['Gujarat', 'Courier & Courier', 'Gujarat, Oslo, 15G, Torshovgata, Sagene, 0438, Oslo 3', 22.3039,70.8022, 1,'ic_3.png'],
+  ];*/
+    function setMarkers(map) {
+      var shape = {
+        coords: [1, 1, 1, 52, 50, 52, 50, 1],
+        type: 'poly'
+      };
+      for (var i = 0; i < item_location.length; i++) {
+        var item = item_location[i];
+        var image = {
+          url: cl_url +'/images/'+item[6],
+
+          size: new google.maps.Size(61, 72),
+
+          origin: new google.maps.Point(0, 0),
+
+          anchor: new google.maps.Point(0, 53)
+        };
+        var infoWindow = new google.maps.InfoWindow({
+          content: item[0],
+        });
+        var marker = new google.maps.Marker({
+          position: {lat: item[3]-0, lng: item[4]-0},
+          animation: google.maps.Animation.DROP,
+          map: map,
+          icon: image,
+          shape: shape,
+          title: item[0],
+          zIndex: item[5]
+        });
+        (function (marker, item) {
+          google.maps.event.addListener(marker, "click", function (e) {
+            //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+            infoWindow.setContent("<div style = 'width:250px;min-height:50px' id='m-info-window'> <h6 class='info-window-hding'>" + item[1] + "</h6> <p class='info-window-desc'>" + item[2] + "</p> </div>");
+            infoWindow.open(map, marker);
+          });
+        })(marker, item);
+      }
+    }
+  </script>
+  <script>
+    var ajax_process = 0;
+    function getresult(url) {
+      return false;
+      $('.loader-icon').show();
+      $.ajax({
+        url: url,
+        type: "GET",
+        async : false,
+        //data:  {},
+        beforeSend: function(){
+          $('.loader-icon').show();
+        },
+        complete: function(){
+          $('.loader-icon').hide();
+        },
+        success: function(data){
+          if(data != 'no-data') {
+            $("#faq-result").html(data).hide().show('slow');
+
+            ajax_process = 0;
+          }
+        },
+        error: function(){
+          $('.loader-icon').hide();
+        }
+      });
+    }
+
+    $(function () {
+
+      $('.loader-icon').hide();
+      getresult( $(".page-url:last").val());
+
+      /*$(window).scroll(function(){
+          //console.log($(window).scrollTop() + '||' + ($(document).height() - $(window).height() -560)  );
+          if ($(window).scrollTop() >= $(document).height() - $(window).height() - 560){
+              if($('.show-more').length == 0) {
+                  var page_url = $(".page-url:last").val();
+                  if(ajax_process == 0) {
+                      ajax_process = 1;
+                      getresult(page_url);
+                  }
+              }
+          }
+      });*/
+
+      $('body').delegate('.vfx-person-block .pagination a','click',function (e) {
+        e.preventDefault();
+        var page_url = $(this).prop('href');
+        getresult(page_url);
+        $("html, body").animate({ scrollTop: $('#after-ajax').offset().top -30 }, 1000);
+      });
+
+    });
+
+    //========= add slide =============================================================================
+    var url_slide = 'http://businesscardfolder.com/cl/images/slide';
+    var current = 0;
+
+    var body = $('#slider-banner-section');
+    var backgrounds = ["contractor.jpg","mechanic.jpg","pediatrician.jpg","landscaper.jpg"];
+
+    function nextBackground() {
+      body.css('background-image', 'url(' + url_slide + '/' +backgrounds[current = ++current % backgrounds.length] + ')')
+        .css('transition', 'background 1.5s linear');
+    }
+
+    $(function () {
+
+      $('#my-text-center').ripples({
+        resolution: 500,
+        dropRadius: 20,
+        perturbance: 0.04,
+      });
+
+      setInterval(nextBackground,6000);
+
+      body.css('background', backgrounds[0]);
+    });
+    //========= add slide =============================================================================
+
+  </script>
+
+</body>
+</html>

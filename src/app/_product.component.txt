@@ -1,0 +1,53 @@
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+
+@Component ({
+  selector: 'app-product',
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.css']
+})
+export class ProductComponent implements OnInit, OnDestroy  {
+  id: number;
+  private sub: any;
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = +params['id']; // (+) converts string 'id' to a number
+
+      // In a real app: dispatch action to load the details here.
+    });
+  }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
+}
+
+
+  <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+
+
+
+  import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+
+  @Component({
+    selector: 'app-business-card-directory',
+    templateUrl: './business-card-directory.component.html',
+    styleUrls: ['./business-card-directory.component.css']
+  })
+  export class BusinessCardDirectoryComponent implements OnInit {
+    @Input() x: any ;
+    @Output() xx = new EventEmitter(); // not aliased
+    _x = 0;
+    constructor() { }
+
+    ngOnInit() {
+      this.xx.emit(this._x);
+    }
+    change(x) {
+      this.xx.emit(x);
+    }
+
+  }
+
