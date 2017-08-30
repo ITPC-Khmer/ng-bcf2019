@@ -615,6 +615,7 @@
                           <a href="website" target="_blank" style="color: #ff7f00;">
                             <i class="fa fa-globe"></i> website</a><br>
                           <i class="fa fa-map-marker text-danger"></i> address
+
                         </p>
                       </div>
 
@@ -627,9 +628,78 @@
             </div>
           </ng-container>
         </ng-container>
+
         <!--==============================================================-->
         <!--==============================================================-->
         <!--==============================================================-->
+
+        <ng-container *ngIf="rows2">
+          <ng-container *ngIf="rows2.length>0">
+            <div *ngFor="let ch of rows2" class="row">
+
+              <div *ngFor="let row of ch" class="col-md-3 col-sm-6 col-xs-12">
+                <div class="feature-item-container-box listing-item my-listing-item"  [style]="isMobile?'height: 330px !important;':''">
+                  <div class="feature-title-item">
+
+                    <img style="height: auto !important;" src="http://www.smallbusinessdoctors.com/wp-content/uploads/2015/09/business-consulting2.jpg" alt="img1">
+                  </div>
+
+                  <div class="feature-box-text" >
+                    <a href="" style="color: black;"><i class="fa fa-map-marker"></i> official_name</a><br>
+
+                    <ng-container *ngFor="let i of [1,2]">
+                      <a href="number" style="color: black;">
+                        <i class="fa fa-phone"></i> number<span class="hidden-xs">( title )</span>
+                        <br>
+                      </a>
+                    </ng-container>
+
+
+                    <div>
+
+                      <ng-container *ngFor="let i of [1,2]">
+                        <a href="mobile_number" style="color: #ff7f00;">
+                          <i class="fa fa-phone"></i> mobile_number
+                        </a>
+                      </ng-container>
+                      <br>
+
+                      <ng-container *ngFor="let i of [1,2]">
+                        <a href="email" style="color: #ff7f00;">
+                          <i class="fa fa-envelope"></i> email
+                        </a>
+                      </ng-container>
+                      <br>
+
+                      <a href="website" target="_blank" style="color: #ff7f00;">
+                        <i class="fa fa-globe"></i> website</a><br>
+                      <i class="fa fa-map-marker text-danger"></i> address
+
+
+                    </div>
+                  </div>
+
+                  <div class="feature-item-location">
+                    <h2><a href=""><i class="fa fa-map-marker"></i> province_id  </a></h2>
+                    <span>
+
+
+                                <a href="">Detail <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                            </span>
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <!--==============================================================-->
+        <!--==============================================================-->
+        <!--==============================================================-->
+
 
       </div>
       <div id="faq-result-last"></div>

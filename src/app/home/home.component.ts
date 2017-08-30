@@ -1,8 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Home} from '../models/home';
+import {Component, OnInit} from '@angular/core';
 import {HelperService} from '../models/helper.service';
 import {Row} from '../models/row';
+import {Ng2DeviceService} from 'ng2-device-detector';
 
 @Component({
   selector: 'app-home',
@@ -14,23 +13,39 @@ import {Row} from '../models/row';
 })
 export class HomeComponent implements OnInit {
   // data: Observable<Home[]>;
-  data: Home[];
+  isMobile: boolean;
   rows: Row[];
-  constructor(private H: HelperService) {}
+  rows2: Row[];
+  constructor(private H: HelperService, private deviceService: Ng2DeviceService) {}
 
   getData(): void {
-    this.H.getJson('http://localhost:8000/api/xyz')
+    this.H.getJson('http://127.0.0.1:8000/api/xyz')
       .subscribe(
-        resultArray => this.rows = this.H.chunk(resultArray, 2),
+        resultArray => {
+          this.rows = this.H.chunk(resultArray, 2);
+        } ,
         error => console.log('Error :: ' + error),
         () => {
-          console.log( this.data);
+          console.log( this.rows);
+        }
+      );
+
+    this.H.getJson('http://127.0.0.1:8000/api/xyz')
+      .subscribe(
+        resultArray => {
+          this.rows2 = this.H.chunk(resultArray, 4);
+        } ,
+        error => console.log('Error :: ' + error),
+        () => {
+          console.log( this.rows2);
         }
       );
   }
 
+
+
   ngOnInit() {
-    // this.rows = this.H.chunk([1, 2, 3, 4, 5, 6, 7, 8], 2);
     this.getData();
+    this.isMobile = this.deviceService.isMobile();
   }
 }

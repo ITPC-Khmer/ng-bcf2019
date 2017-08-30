@@ -1,0 +1,9 @@
+<div>list of things</div>
+<app-pagination
+  (goPage)="goToPage($event)"
+  (goNext)="onNext()"
+  (goPrev)="onPrev()"
+  [pagesToShow]="6"
+  [page]="page"
+  [perPage]="limit"
+  [count]="total"></app-pagination>

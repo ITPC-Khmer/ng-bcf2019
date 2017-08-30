@@ -5,18 +5,16 @@ import {Row} from './row';
 
 @Injectable()
 export class HelperService {
-
+  private chunkArr = [];
   constructor(private http: Http) { }
-  chunk(arr, groupsize) {
-    const sets = [];
-    let chunks: number;
-    let i = 0;
-    chunks = arr.length / groupsize;
-    while ( i < chunks) {
-      sets[i] = arr.splice(0, groupsize);
-      i++;
+
+  chunk(myArray, chunk_size) {
+
+    while (myArray.length) {
+      this.chunkArr.push(myArray.splice(0, chunk_size));
     }
-    return sets;
+
+    return this.chunkArr;
   }
 
   getJson(url, p: URLSearchParams = null): any {

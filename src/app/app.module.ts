@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpModule} from '@angular/http';
+import {HttpModule, JsonpModule} from '@angular/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -11,20 +11,27 @@ import { HomeComponent } from './home/home.component';
 import { BusinessCardDirectoryComponent } from './business-card-directory/business-card-directory.component';
 import { AboutComponent } from './about/about.component';
 import {GetHomeService} from './get-home.service';
-import {HelperService} from "./models/helper.service";
+import {HelperService} from './models/helper.service';
+import {Ng2DeviceDetectorModule} from 'ng2-device-detector';
+import { PaginationComponent } from './pagination/pagination.component';
+import { ListComponent } from './pagination/list/list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     BusinessCardDirectoryComponent,
-    AboutComponent
+    AboutComponent,
+    PaginationComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(Route)
+    RouterModule.forRoot(Route),
+    Ng2DeviceDetectorModule.forRoot(),
+    JsonpModule
   ],
   providers: [
     HelperService,
