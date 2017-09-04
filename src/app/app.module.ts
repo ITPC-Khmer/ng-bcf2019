@@ -15,6 +15,7 @@ import {HelperService} from './models/helper.service';
 import {Ng2DeviceDetectorModule} from 'ng2-device-detector';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ListComponent } from './pagination/list/list.component';
+import { KeysPipe } from './keys.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ListComponent } from './pagination/list/list.component';
     BusinessCardDirectoryComponent,
     AboutComponent,
     PaginationComponent,
-    ListComponent
+    ListComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,

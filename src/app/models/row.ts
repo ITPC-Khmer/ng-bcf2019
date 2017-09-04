@@ -1,3 +1,7 @@
 export interface Row {
-  row: any;
+   row: any;
+ /* id: string;
+  name: string;
+  sex: string;
+  contact: any;*/
 }

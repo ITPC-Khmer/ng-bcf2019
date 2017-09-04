@@ -575,7 +575,7 @@
                   <div class="col-md-4 col-sm-12 nopadding feature-item-listing-item listing-item">
                     <div class="recent-listing-box-image-x">
                       <img class="responsive"
-                           src="http://www.smallbusinessdoctors.com/wp-content/uploads/2015/09/business-consulting2.jpg"
+                           src="{{row.company_view}}"
                            alt="img1">
                     </div>
                     <a class="btn" href="">View Listing »</a>
@@ -583,38 +583,41 @@
                   <div class="col-md-8 col-sm-12 nopadding">
                     <div class="recent-listing-box-item">
 
-                      <img src="https://image.freepik.com/free-vector/arrow-house-business-logo_1017-1012.jpg"
+                      <img src="{{row.logo_vertical}}"
                            style="height: 60px;position: absolute;right: 0;top: 0;">
-                      <div class="listing-boxes-text"><a href="listing_detail.html">
-                        <h3>official_name</h3>
+                      <div class="listing-boxes-text"><a href="">
+                        <h3>{{row.official_name}}</h3>
                       </a>
 
-                        <ng-container *ngFor="let i of [1,2]">
-                          <a href="number" style="color: black;">
-                            <i class="fa fa-phone"></i> number<span class="hidden-xs">( title )</span>
+
+                        <ng-container *ngFor="let item of (row.telephone_number | keys )">
+
+                          <a href="number" style="color: black;" *ngIf="item.value.value != null">
+                            <i class="fa fa-phone"></i> {{item.value.value}}<span class="hidden-xs">( {{item.value.key}} )</span>
                             <br>
                           </a>
                         </ng-container>
 
 
                         <p>
-                          <ng-container *ngFor="let i of [1,2]">
-                            <a href="mobile_number" style="color: #ff7f00;">
-                              <i class="fa fa-phone"></i> mobile_number
+                          <ng-container *ngFor="let item of (row.mobile_number | keys )">
+                            <a href="mobile_number" style="color: #ff7f00;" *ngIf="item.value.value != null">
+                              <i class="fa fa-phone"></i>  {{item.value.value}}
+                             <!-- <span class="hidden-xs">( {{item.value.key}} )</span> -->
                             </a>
                           </ng-container>
                           <br>
 
-                          <ng-container *ngFor="let i of [1,2]">
-                            <a href="email" style="color: #ff7f00;">
-                              <i class="fa fa-envelope"></i> email
+                          <ng-container *ngFor="let item of (row.email | keys )">
+                            <a href="email" style="color: #ff7f00;" *ngIf="item.value.value != null">
+                              <i class="fa fa-envelope"></i> {{item.value.value}}
                             </a>
                           </ng-container>
                           <br>
 
-                          <a href="website" target="_blank" style="color: #ff7f00;">
-                            <i class="fa fa-globe"></i> website</a><br>
-                          <i class="fa fa-map-marker text-danger"></i> address
+                          <a href="{{row.website}}" target="_blank" style="color: #ff7f00;" *ngIf="row.website != null">
+                            <i class="fa fa-globe"></i> {{row.website}}</a><br>
+                          <i class="fa fa-map-marker text-danger"></i> {{row.address}}
 
                         </p>
                       </div>
@@ -624,6 +627,19 @@
                   </div>
                 </div>
               </div>
+
+            </div>
+
+            <div class="vfx-person-block" style="text-align: center;">
+
+              <app-pagination
+                (goPage)="goToPage($event)"
+                (goNext)="onNext()"
+                (goPrev)="onPrev()"
+                [pagesToShow]="10"
+                [page]="jsonpPage.current_page"
+                [perPage]="jsonpPage.per_page"
+                [count]="jsonpPage.total"></app-pagination>
 
             </div>
           </ng-container>
@@ -641,15 +657,17 @@
                 <div class="feature-item-container-box listing-item my-listing-item"  [style]="isMobile?'height: 330px !important;':''">
                   <div class="feature-title-item">
 
-                    <img style="height: auto !important;" src="http://www.smallbusinessdoctors.com/wp-content/uploads/2015/09/business-consulting2.jpg" alt="img1">
+                    <img style="height: auto !important;" src="{{row.company_view}}" alt="img1">
                   </div>
 
                   <div class="feature-box-text" >
-                    <a href="" style="color: black;"><i class="fa fa-map-marker"></i> official_name</a><br>
+                    <a href="" style="color: black;"><i class="fa fa-map-marker"></i> {{row.official_name}}</a><br>
 
-                    <ng-container *ngFor="let i of [1,2]">
-                      <a href="number" style="color: black;">
-                        <i class="fa fa-phone"></i> number<span class="hidden-xs">( title )</span>
+
+                    <ng-container *ngFor="let item of (row.telephone_number | keys )">
+
+                      <a href="{{item.value.value}}" style="color: black;" *ngIf="item.value.value != null">
+                        <i class="fa fa-phone"></i> {{item.value.value}}<span class="hidden-xs">( {{item.value.key}} )</span>
                         <br>
                       </a>
                     </ng-container>
@@ -657,23 +675,32 @@
 
                     <div>
 
-                      <ng-container *ngFor="let i of [1,2]">
-                        <a href="mobile_number" style="color: #ff7f00;">
-                          <i class="fa fa-phone"></i> mobile_number
+
+                      <ng-container *ngFor="let item of (row.mobile_number | keys )">
+                        <a href="mobile_number" style="color: #ff7f00;" *ngIf="item.value.value != null">
+                          <i class="fa fa-phone"></i>  {{item.value.value}}
+                          <!-- <span class="hidden-xs">( {{item.value.key}} )</span> -->
                         </a>
                       </ng-container>
+
+
+
                       <br>
 
-                      <ng-container *ngFor="let i of [1,2]">
-                        <a href="email" style="color: #ff7f00;">
-                          <i class="fa fa-envelope"></i> email
+
+                      <ng-container *ngFor="let item of (row.email | keys )">
+                        <a href="email" style="color: #ff7f00;" *ngIf="item.value.value != null">
+                          <i class="fa fa-envelope"></i> {{item.value.value}}
                         </a>
                       </ng-container>
+
+
+
                       <br>
 
-                      <a href="website" target="_blank" style="color: #ff7f00;">
-                        <i class="fa fa-globe"></i> website</a><br>
-                      <i class="fa fa-map-marker text-danger"></i> address
+                      <a href="{{row.website}}" target="_blank" style="color: #ff7f00;">
+                        <i class="fa fa-globe"></i> {{row.website}}</a><br>
+                      <i class="fa fa-map-marker text-danger"></i> {{row.address}}
 
 
                     </div>
@@ -693,6 +720,20 @@
               </div>
 
             </div>
+
+            <div class="vfx-person-block" style="text-align: center;">
+
+              <app-pagination
+                (goPage)="goToPage($event)"
+                (goNext)="onNext()"
+                (goPrev)="onPrev()"
+                [pagesToShow]="10"
+                [page]="page"
+                [perPage]="limit"
+                [count]="total"></app-pagination>
+
+            </div>
+
           </ng-container>
         </ng-container>
 
@@ -709,6 +750,5 @@
     </div>
   </div>
 </div>
-
 
 
